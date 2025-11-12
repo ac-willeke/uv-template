@@ -40,7 +40,7 @@ This Python package is developed using [uv](https://docs.astral.sh/uv/) and is m
 
 ### Repository Structure
 
-Important configuration files are listed below, full overview of the repository structure is available in the [Repository Structure](./docs/repo-structure.md) documentation.
+Important configuration files are listed below{% if include_docs %}, full overview of the repository structure is available in the [Repository Structure](./docs/repo-structure.md) documentation{% endif %}.
 
 | File/Directory            | Purpose                             |
 |---------------------------|-------------------------------------|
@@ -49,7 +49,7 @@ Important configuration files are listed below, full overview of the repository 
 {% endif -%}
 | `.github/workflows/`      | GitHub Actions for CI/CD (see [GitHub Actions Workflows](#github-actions-workflows)) |
 | `pyproject.toml`          | Python package configuration, dependencies, and build settings |
-| `Taskfile.yml`            | Automated tasks for setting up the dev environment, running code quality checks and more. Run `task help` to see all available tasks or refer to the [Command Cheatsheet](./docs/command-cheatsheet.md) |
+| `Taskfile.yml`            | Automated tasks for setting up the dev environment, running code quality checks and more. Run `task help` to see all available tasks{% if include_docs %} or refer to the [Command Cheatsheet](./docs/command-cheatsheet.md){% endif %} |
 
 {% if include_docker -%}
 ## Docker Configuration
@@ -60,8 +60,9 @@ This project includes multiple Docker configurations to support development, tes
 - **Testing Container**: Docker Compose setup for local testing that reproduces the production environment. Start with `docker-compose up --build`
 - **Production Container**: [Dockerfile](./Dockerfile) for building production-ready container images, automatically deployed to GitHub Container Registry (GHCR) via GitHub Actions workflow: [./.github/workflows/cd-docker.yml](./.github/workflows/cd-docker.yml)
 
+{% if include_docs -%}
 For detailed development container configuration and customization instructions, see the [setup guide](./docs/setup-guide.md).
-
+{% endif %}
 {% endif -%}
 ### Workflow Statuses
 
@@ -120,9 +121,11 @@ docker run --rm ghcr.io/{{ github_username }}/{{ package_name }}:latest
 > **Recommended Setup:** Use {% if include_docker %}[GitHub Codespaces](https://github.com/features/codespaces) or [VS Code Devcontainers](https://code.visualstudio.com/docs/devcontainers/containers) for a consistent environment. Alternative option is to{% else %}{% endif %} install the project locally using uv.
 
 {% if include_docker -%}
-The following steps configure your development environment using VS Code Dev Containers. For local setup without containers, refer to the [setup guide](./docs/setup-guide.md) in the documentation.
+The following steps configure your development environment using VS Code Dev Containers{% if include_docs %}. For local setup without containers, refer to the [setup guide](./docs/setup-guide.md) in the documentation{% endif %}.
 {% else -%}
+{% if include_docs -%}
 For detailed setup instructions, refer to the [setup guide](./docs/setup-guide.md) in the documentation.
+{% endif %}
 {% endif %}
 
 ### Prerequisites
@@ -188,16 +191,20 @@ For detailed setup instructions, refer to the [setup guide](./docs/setup-guide.m
    ```
 
 {% if include_notebooks -%}
-5. **Test the notebook**: Open `notebooks/demo.ipynb` and select the `.venv` kernel. If you have problems activating the `.venv` refer to the [setup guide](./docs/setup-guide.md).
+5. **Test the notebook**: Open `notebooks/demo.ipynb` and select the `.venv` kernel{% if include_docs %}. If you have problems activating the `.venv` refer to the [setup guide](./docs/setup-guide.md){% endif %}.
 {% endif %}
 
-6. **Configure the GitHub Repository**: If you fork this repository or use it to create a new repository from scratch, you'll need to configure your GitHub repository to connect with **Test PyPI**, **Safety** and **Code Coverage**. Also, verify that your **security scans** are properly set up. See the **GitHub Repository Configuration** section in the [setup guide](./docs/setup-guide.md) for instructions.
+6. **Configure the GitHub Repository**: If you fork this repository or use it to create a new repository from scratch, you'll need to configure your GitHub repository to connect with **Test PyPI**, **Safety** and **Code Coverage**. Also, verify that your **security scans** are properly set up{% if include_docs %}. See the **GitHub Repository Configuration** section in the [setup guide](./docs/setup-guide.md) for instructions{% endif %}.
 
 ## Development Workflow
 
 1. **Setup**:
+{% if include_docs -%}
    - Follow the setup instructions above or refer to the [Installation Guide](docs/installation.md).
    - Follow the demo walkthrough in the [Quick Start Guide](docs/demo-quickstart.md)
+{% else -%}
+   - Follow the setup instructions above.
+{% endif %}
 
 2. **Develop**:
     - Create a branch for your feature or bug fix: `feat/<name>` or `fix/<name>`.
@@ -228,9 +235,9 @@ For detailed setup instructions, refer to the [setup guide](./docs/setup-guide.m
 
 ### Code Quality Standards
 
-Follow PEP8, use type hints, and include docstrings in reStructuredText format. All quality checks are automated through Task commands, pre-commit hooks and CI workflows.
+Follow PEP8, use type hints, and include docstrings in reStructuredText format. All quality checks are automated through Task commands, pre-commit hooks and CI workflows{% if include_docs %}.
 
-See the [Code Quality and Security Standards](./docs/code-and-security-standards.md) guide to see which rules are enforced in this repo.
+See the [Code Quality and Security Standards](./docs/code-and-security-standards.md) guide to see which rules are enforced in this repo{% endif %}.
 
 ### GHA Workflows
 
@@ -275,7 +282,9 @@ task build            # Build Python package
 task tag              # Prepare a new release (create git tag)
 ```
 
+{% if include_docs -%}
 For more commands see: [Command Cheatsheet](./docs/command-cheatsheet.md)
+{% endif %}
 
 ### Branch Protection
 
@@ -285,18 +294,18 @@ The `main` branch is protected with the following rules:
 - Require status checks to pass before merging
 - Require branches to be up to date before merging
 
+{% if include_docs -%}
 ## Documentation
 
-{% if include_docs -%}
-- **Development Guides:** See [`/docs`](./docs/) folder:
-  - [Setup Guide](./docs/setup-guide.md)
-  - [Code Quality and Security Standards](./docs/code-and-security-standards.md)
-  - [Command Cheatsheet](./docs/command-cheatsheet.md)
-  - [Repository Structure](./docs/repo-structure.md)
-  - [Troubleshooting](./docs/troubleshooting.md)
-{% else -%}
-- **API Documentation**: See docstrings in source code
-- **Setup Instructions**: See [Setup](#setup) section above
+- [Setup Guide](./docs/setup-guide.md)
+- [Demo Quick Start Guide](./docs/demo-quickstart.md)
+- [Code Quality and Security Standards](./docs/code-and-security-standards.md)
+- [Command Cheatsheet](./docs/command-cheatsheet.md)
+- [Repository Structure](./docs/repo-structure.md)
+- [Troubleshooting Guide](./docs/troubleshooting.md)
+{% if include_copilot_instructions -%}
+- [Copilot instructions](./.github/copilot-instructions.md)
+{% endif %}
 {% endif %}
 
 ## Acknowledgements
