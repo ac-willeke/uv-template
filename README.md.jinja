@@ -1,0 +1,313 @@
+# {{ project_name }}
+
+[![License: {{ license }}](https://img.shields.io/badge/License-{{ license }}-yellow.svg)]({% if license == "MIT" %}https://opensource.org/licenses/MIT{% elif license == "Apache-2.0" %}https://opensource.org/licenses/Apache-2.0{% elif license == "GPL-3.0" %}https://opensource.org/licenses/GPL-3.0{% elif license == "BSD-3-Clause" %}https://opensource.org/licenses/BSD-3-Clause{% endif %}) [![TestPyPI](https://img.shields.io/badge/TestPyPI-latest-blue)](https://test.pypi.org/project/{{ package_name }}/) [![Coverage](https://codecov.io/gh/{{ github_username }}/{{ package_name }}/branch/main/graph/badge.svg)](https://codecov.io/gh/{{ github_username }}/{{ package_name }}) [![Safety](https://img.shields.io/badge/Safety-Dashboard-blue)](https://platform.safetycli.com/codebases/{{ package_name }}/findings)
+
+{{ project_description }}
+
+**Table of Contents**
+
+- [Project Overview](#project-overview)
+  - [Key Features](#key-features)
+  - [Repository Structure](#repository-structure)
+{% if include_docker -%}
+- [Docker Configuration](#docker-configuration)
+{% endif -%}
+  - [Workflow Statuses](#workflow-statuses)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+- [Development](#development)
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+- [Development Workflow](#development-workflow)
+  - [Code Quality Standards](#code-quality-standards)
+  - [GHA Workflows](#gha-workflows)
+  - [Local Development Commands](#local-development-commands)
+  - [Branch Protection](#branch-protection)
+- [Documentation](#documentation)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
+
+## Project Overview
+
+This Python package is developed using [uv](https://docs.astral.sh/uv/) and is maintained by {{ author_name }}. It provides {{ project_description.lower() }} and is intended for development and production use.
+
+### Key Features
+
+- Core functionality for {{ project_description.lower() }}
+- Reproducible environments: {% if include_docker %}Docker containers and {% endif %}uv environment management for consistent package versions across development, testing, and production
+- Quality assurance: Automated code quality checks, testing and security scanning via GitHub Actions workflows
+- Development tools: {% if include_docker %}VS Code integration, development containers, {% endif %}Taskfile automation
+
+### Repository Structure
+
+Important configuration files are listed below, full overview of the repository structure is available in the [Repository Structure](./docs/repo-structure.md) documentation.
+
+| File/Directory            | Purpose                             |
+|---------------------------|-------------------------------------|
+{% if include_docker -%}
+| `.devcontainer/`          | VS Code dev container configuration |
+{% endif -%}
+| `.github/workflows/`      | GitHub Actions for CI/CD (see [GitHub Actions Workflows](#github-actions-workflows)) |
+| `pyproject.toml`          | Python package configuration, dependencies, and build settings |
+| `Taskfile.yml`            | Automated tasks for setting up the dev environment, running code quality checks and more. Run `task help` to see all available tasks or refer to the [Command Cheatsheet](./docs/command-cheatsheet.md) |
+
+{% if include_docker -%}
+## Docker Configuration
+
+This project includes multiple Docker configurations to support development, testing and deployment:
+
+- **Development Container**: Configured via `.devcontainer/devcontainer.json` for use with VS Code Dev Containers and GitHub Codespaces
+- **Testing Container**: Docker Compose setup for local testing that reproduces the production environment. Start with `docker-compose up --build`
+- **Production Container**: [Dockerfile](./Dockerfile) for building production-ready container images, automatically deployed to GitHub Container Registry (GHCR) via GitHub Actions workflow: [./.github/workflows/cd-docker.yml](./.github/workflows/cd-docker.yml)
+
+For detailed development container configuration and customization instructions, see the [setup guide](./docs/setup-guide.md).
+
+{% endif -%}
+### Workflow Statuses
+
+| Job | Status | Description |
+|---|---|---|
+| **CI Python** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/ci-python.yml?branch=main&label=&style=flat) | Code quality checks, testing, coverage |
+| **CD Python** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/cd-python.yml?label=&style=flat) | Package deployment to Test PyPI |
+{% if include_docker -%}
+| **CI Docker** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/ci-docker.yml?branch=main&label=&style=flat) | Build and test Docker image |
+| **CD Docker** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/cd-docker.yml?label=&style=flat) | Container deployment to GitHub Registry |
+{% endif -%}
+| **Security Scan - Safety** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/scan-safety.yml?branch=main&label=&style=flat) | Python dependency vulnerability scanning |
+| **Security Scan - CodeQL** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/scan-codeql.yml?branch=main&label=&style=flat) | Python and GHA security analysis |
+| **Security Scan - Zizmor** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/scan-zizmor.yml?branch=main&label=&style=flat) | GHA workflow security scan |
+| **Dependabot** |  | Automated dependency updates |
+
+Results of the security scans are visible in the [Security](https://github.com/{{ github_username }}/{{ package_name }}/security/code-scanning) tab of the GitHub repository.
+
+## Getting Started
+
+The **{{ package_name }}** package provides {{ project_description.lower() }}. You can install this package from [Test PyPI](https://test.pypi.org/project/{{ package_name }}/){% if include_docker %} or pull the containerized version from [GHCR](https://github.com/{{ github_username }}/{{ package_name }}/pkgs/container/{{ package_name }}){% endif %}.
+
+### Installation
+
+> [!NOTE]
+> This package is published to Test PyPI for demonstration purposes. Test PyPI is a testing environment for package deployment without affecting the official PyPI index. If you're using this package in production, ensure it's published to the official PyPI index.
+
+Install the package from Test PyPI:
+
+```bash
+pip install -i https://test.pypi.org/simple/ {{ package_name }}
+```
+
+```python
+import {{ module_name }}
+{{ module_name }}.main()
+# > Hello from {{ package_name }}!
+# > Version: x.x.x
+```
+
+{% if include_docker -%}
+Or pull and run the container:
+
+```bash
+docker pull ghcr.io/{{ github_username }}/{{ package_name }}:latest
+
+docker run --rm ghcr.io/{{ github_username }}/{{ package_name }}:latest
+# > Hello from {{ package_name }}!
+# > Version: x.x.x
+```
+
+{% endif -%}
+## Development
+
+> [!TIP]
+> **Recommended Setup:** Use {% if include_docker %}[GitHub Codespaces](https://github.com/features/codespaces) or [VS Code Devcontainers](https://code.visualstudio.com/docs/devcontainers/containers) for a consistent environment. Alternative option is to{% else %}{% endif %} install the project locally using uv.
+
+{% if include_docker -%}
+The following steps configure your development environment using VS Code Dev Containers. For local setup without containers, refer to the [setup guide](./docs/setup-guide.md) in the documentation.
+{% else -%}
+For detailed setup instructions, refer to the [setup guide](./docs/setup-guide.md) in the documentation.
+{% endif %}
+
+### Prerequisites
+
+{% if include_docker -%}
+- [Docker](https://docs.docker.com/engine/install/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [VS Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) extension
+{% else -%}
+- [Python {{ python_version }}+](https://www.python.org/downloads/)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
+{% endif %}
+
+### Setup
+
+{% if include_docker -%}
+1. **Open the project**: Clone and open the project folder in VS Code or use [GitHub Codespaces](https://docs.github.com/en/codespaces).
+
+2. **Start the devcontainer**: When prompted, reopen the folder in the Devcontainer. If not prompted, manually trigger it via the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) and select "Dev Containers: Reopen in Container".
+
+3. **Automatic setup**: The devcontainer automatically:
+   - Configures VS Code with recommended settings and extensions per [devcontainer.json](.devcontainer/devcontainer.json)
+   - Installs development tools: [Git](https://git-scm.com/), [uv](https://docs.astral.sh/uv/), [pre-commit](https://pre-commit.com/), [Task](https://taskfile.dev/installation/)
+   - Sets up the Python environment with dependencies in `.venv` via `task dev-setup`, which runs `uv sync --dev` and executes code quality checks and test coverage
+
+4. **Test the installation with Task commands**:
+{% else -%}
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/{{ github_username }}/{{ package_name }}.git
+   cd {{ package_name }}
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   uv sync --group dev
+   ```
+
+3. **Install pre-commit hooks**:
+   ```bash
+   uv run pre-commit install
+   ```
+
+4. **Test the installation**:
+{% endif %}
+
+   Task is used to automate common development tasks *(see [Taskfile.yml](Taskfile.yml))*.
+
+   ```bash
+   # Test the package
+   task run
+   # or
+   uv run {{ package_name }}
+
+   # Run quality checks
+   task check
+
+   # Run local CI workflow
+   task ci-local
+
+   # Clean up
+   task clean
+   ```
+
+{% if include_notebooks -%}
+5. **Test the notebook**: Open `notebooks/demo.ipynb` and select the `.venv` kernel. If you have problems activating the `.venv` refer to the [setup guide](./docs/setup-guide.md).
+{% endif %}
+
+6. **Configure the GitHub Repository**: If you fork this repository or use it to create a new repository from scratch, you'll need to configure your GitHub repository to connect with **Test PyPI**, **Safety** and **Code Coverage**. Also, verify that your **security scans** are properly set up. See the **GitHub Repository Configuration** section in the [setup guide](./docs/setup-guide.md) for instructions.
+
+## Development Workflow
+
+1. **Setup**:
+   - Follow the setup instructions above or refer to the [Installation Guide](docs/installation.md).
+   - Follow the demo walkthrough in the [Quick Start Guide](docs/demo-quickstart.md)
+
+2. **Develop**:
+    - Create a branch for your feature or bug fix: `feat/<name>` or `fix/<name>`.
+    - Make your changes. For example develop package functions in `src/` {% if include_notebooks %}or add notebooks to `notebooks/`{% endif %}.
+    - Ensure code meets the quality standards by running `task check`.
+    - Ensure tests are written for new features and pass `task test`.
+
+3. **Integrate**:
+    - Check that all CI tests pass locally with `task ci-local`.
+    - Push your branch to GitHub.
+    - Create a pull request against the `main` branch.
+    - Await review and merge; your branch will be automatically deleted after merging.
+
+4. **Deploy**:
+    - Create a git tag for releases (e.g., `v0.0.1`) using `task tag`.
+    - Create a PR from `release/<version>` to `main` to deploy the new release.
+    - Once merged to `main`, the CD workflows are triggered:
+        - CD Python automatically builds and publishes the package to Test PyPI.
+{% if include_docker -%}
+        - CD Docker builds and pushes the container image to GitHub Container Registry.
+{% endif %}
+
+5. **Clean up**:
+   - Clean up dev files and artifacts with `task clean`.
+   - Clean up local git:
+        - enable pruning: `git config --global fetch.prune true`
+        - delete merged branch locally: `git branch -d <branch-name>`
+
+### Code Quality Standards
+
+Follow PEP8, use type hints, and include docstrings in reStructuredText format. All quality checks are automated through Task commands, pre-commit hooks and CI workflows.
+
+See the [Code Quality and Security Standards](./docs/code-and-security-standards.md) guide to see which rules are enforced in this repo.
+
+### GHA Workflows
+
+The repository includes automated workflows for code quality, security, and deployment:
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| **CI Python** | `push`, `pull_request` to `main` | Code quality checks, testing, coverage |
+| **CD Python** | `push` to `main` with version tags | Package deployment to Test PyPI |
+{% if include_docker -%}
+| **CD Docker** | `push` to `main` with version tags | Container deployment to GitHub Registry |
+{% endif -%}
+| **Safety Scan** | `push`, `pull_request`, `schedule` | Python dependency vulnerability scanning |
+| **CodeQL Analysis** | `push`, `pull_request`, `schedule` | Code security analysis |
+| **Zizmor Security** | `push`, `pull_request` | GHA workflow security |
+
+The demo workflows can be customized or removed based on your specific project requirements. At minimum, I recommend including the **CI Python** workflow for code quality and testing, as well as the Security workflows: **CodeQL**, **Safety**, and **Zizmor**.
+
+### Local Development Commands
+
+Use these commands for local development and testing:
+
+```bash
+# Setup and quality checks
+task install          # Install dependencies and setup environment
+task check            # Run all quality checks
+task ci-local         # Simulate CI pipeline locally
+
+# Testing and running
+task test             # Run test suite
+task run              # Run the demo package
+{% if include_docker -%}
+task run-docker       # Run in Docker container
+{% endif %}
+
+# Code formatting and security
+task format           # Format code with ruff
+task security         # Run security scans
+
+# Build and release
+task build            # Build Python package
+task tag              # Prepare a new release (create git tag)
+```
+
+For more commands see: [Command Cheatsheet](./docs/command-cheatsheet.md)
+
+### Branch Protection
+
+The `main` branch is protected with the following rules:
+
+- Require pull request reviews before merging
+- Require status checks to pass before merging
+- Require branches to be up to date before merging
+
+## Documentation
+
+{% if include_docs -%}
+- **Development Guides:** See [`/docs`](./docs/) folder:
+  - [Setup Guide](./docs/setup-guide.md)
+  - [Code Quality and Security Standards](./docs/code-and-security-standards.md)
+  - [Command Cheatsheet](./docs/command-cheatsheet.md)
+  - [Repository Structure](./docs/repo-structure.md)
+  - [Troubleshooting](./docs/troubleshooting.md)
+{% else -%}
+- **API Documentation**: See docstrings in source code
+- **Setup Instructions**: See [Setup](#setup) section above
+{% endif %}
+
+## Acknowledgements
+
+This project incorporates best practices from the Python and DevOps communities, including:
+
+- Astral-sh's [uv Documentation](https://docs.astral.sh/uv/) and Docker configuration example [astral-sh/uv-docker-example](https://github.com/astral-sh/uv-docker-example)
+- GitHub Template: [uv-template](https://github.com/{{ github_username }}/uv-template)
+
+## License
+
+This project is licensed under the {{ license }} License - see the [LICENSE](LICENSE) file for details.
+
+---
