@@ -9,10 +9,12 @@ _envops:
 # Template metadata
 _metadata:
   title: "UV Python Project Template"
-  description: "A professional Python project template using UV for dependency management"
+  description: "A professional Python project template using UV for dependency management with comprehensive tooling"
   version: "1.0.0"
+  author: "Automated Generation"
+  homepage: "https://github.com/ac-willeke/uv-template"
 
-# Template questions
+# Core project information
 project_name:
   type: str
   help: "What is your project name? (e.g., My Awesome Package)"
@@ -35,6 +37,7 @@ project_description:
   help: "Briefly describe your project"
   default: "A Python project built with UV"
 
+# Author information
 author_name:
   type: str
   help: "What is your full name?"
@@ -50,21 +53,7 @@ github_username:
   help: "What is your GitHub username?"
   validator: "{% if not github_username %}Required field{% endif %}"
 
-include_docker:
-  type: bool
-  help: "Include Docker configuration?"
-  default: true
-
-include_notebooks:
-  type: bool
-  help: "Include Jupyter notebook support?"
-  default: true
-
-include_docs:
-  type: bool
-  help: "Include documentation folder?"
-  default: true
-
+# Technical configuration
 python_version:
   type: str
   help: "Minimum Python version"
@@ -85,11 +74,63 @@ license:
     - "GPL-3.0"
     - "BSD-3-Clause"
 
+# Optional features
+include_docker:
+  type: bool
+  help: "Include Docker configuration (Dockerfile, compose.yml, .devcontainer)?"
+  default: true
+
+include_notebooks:
+  type: bool
+  help: "Include Jupyter notebook support and demo notebook?"
+  default: true
+
+include_docs:
+  type: bool
+  help: "Include comprehensive documentation folder?"
+  default: true
+
+include_copilot_instructions:
+  type: bool
+  help: "Include GitHub Copilot instructions file?"
+  default: false
+
+# Target audience (used in documentation)
+target_audience:
+  type: str
+  help: "Who is the target audience? (e.g., Developers, Data Scientists, etc.)"
+  default: "Developers"
+
 # Post-generation hooks
 _tasks:
+  # Initialize git repository
   - command: "git init"
     when: "{{ _copier_conf.src_path != _copier_conf.dst_path }}"
+
+  # Add all files to git
   - command: "git add ."
     when: "{{ _copier_conf.src_path != _copier_conf.dst_path }}"
-  - command: "git commit -m 'Initial commit from template'"
+
+  # Create initial commit
+  - command: "git commit -m 'Initial commit from UV Python template'"
+    when: "{{ _copier_conf.src_path != _copier_conf.dst_path }}"
+
+  # Display post-generation instructions
+  - command: "echo"
+    args:
+      - |
+
+        🎉 Successfully generated {{ project_name }}!
+
+        Next steps:
+        1. Navigate to the project: cd {{ package_name }}
+        2. Install dependencies: uv sync --group dev
+        3. Set up pre-commit hooks: uv run pre-commit install
+        4. Run tests: uv run pytest
+        5. Start developing: code .
+        {% if include_docs %}
+        📖 For detailed setup instructions, see docs/setup-guide.md
+        🚀 For a quick start guide, see docs/demo-quickstart.md
+        📋 For command reference, see docs/command-cheatsheet.md
+        {% endif %}
     when: "{{ _copier_conf.src_path != _copier_conf.dst_path }}"
