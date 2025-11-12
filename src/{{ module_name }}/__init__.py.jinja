@@ -1,0 +1,41 @@
+"""
+{{ project_name }}.
+
+{{ project_description }}
+"""
+from importlib.metadata import version
+
+__version__ = version("{{ package_name }}")
+
+
+def main() -> None:
+    """
+    Main entry point for {{ package_name }}.
+    
+    Displays a welcome message and version information.
+    """
+    print(f"Hello from {{ package_name }}!")
+    print(f"Version: {__version__}")
+
+
+def greet(name: str = "World") -> str:
+    """
+    Generate a greeting message.
+    
+    :param name: Name to greet.
+    :return: Greeting message.
+    """
+    return f"Hello, {name}! Welcome to {{ project_name }}."
+
+
+def get_version() -> str:
+    """
+    Get the package version.
+    
+    :return: Package version string.
+    """
+    return __version__
+
+
+if __name__ == "__main__":
+    main()

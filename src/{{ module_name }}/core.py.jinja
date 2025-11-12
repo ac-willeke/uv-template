@@ -1,0 +1,74 @@
+"""
+Core functionality for {{ project_name }}.
+
+This module contains the main business logic and core functions
+for the {{ package_name }} package.
+"""
+
+from typing import Dict, List, Optional
+
+
+class {{ module_name.title().replace('_', '') }}:
+    """
+    Main class for {{ project_name }}.
+    
+    This class demonstrates the basic structure and can be customized
+    based on your project's requirements.
+    """
+
+    def __init__(self, name: str = "{{ project_name }}") -> None:
+        """
+        Initialize {{ module_name.title().replace('_', '') }}.
+        
+        :param name: Name identifier for this instance.
+        """
+        self.name = name
+        self._config: Dict[str, str] = {}
+
+    def configure(self, **kwargs: str) -> None:
+        """
+        Configure the instance with key-value pairs.
+        
+        :param kwargs: Configuration parameters.
+        """
+        self._config.update(kwargs)
+
+    def get_config(self, key: str, default: Optional[str] = None) -> Optional[str]:
+        """
+        Get a configuration value.
+        
+        :param key: Configuration key to retrieve.
+        :param default: Default value if key not found.
+        :return: Configuration value or default.
+        """
+        return self._config.get(key, default)
+
+    def process_data(self, data: List[str]) -> List[str]:
+        """
+        Process a list of strings.
+        
+        Example function demonstrating data processing.
+        Customize this method based on your project's needs.
+        
+        :param data: List of strings to process.
+        :return: Processed list of strings.
+        """
+        return [item.upper().strip() for item in data if item.strip()]
+
+    def __repr__(self) -> str:
+        """
+        String representation of the instance.
+        
+        :return: String representation.
+        """
+        return f"{{ module_name.title().replace('_', '') }}(name='{self.name}')"
+
+
+def create_instance(name: str = "default") -> {{ module_name.title().replace('_', '') }}:
+    """
+    Factory function to create a {{ module_name.title().replace('_', '') }} instance.
+    
+    :param name: Name for the instance.
+    :return: New {{ module_name.title().replace('_', '') }} instance.
+    """
+    return {{ module_name.title().replace('_', '') }}(name=name)
