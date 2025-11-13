@@ -92,7 +92,7 @@ include_docs:
 include_copilot:
   type: bool
   help: "Include GitHub Copilot instructions file?"
-  default: false
+  default: true
 
 # Post-generation hooks
 
