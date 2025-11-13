@@ -48,7 +48,7 @@ Choose one of these methods:
 1. Install `copier` with uv and generate a new project, replace "my-new-project" with your project directory name:
 
     ```bash
-    uvx --with copier_template_extensions copier copy --trust https://github.com/ac-willeke/uv-template my-new-project
+    uvx --with copier_template_extensions copier copy --trust gh:ac-willeke/uv-template my-new-project
     ```
 
 2. Follow the interactive prompts to customize your project.
