@@ -148,9 +148,9 @@ tasks:
   tag:
     desc: 'Create and push a new version tag (usage: task tag VERSION=v1.0.0)'
     cmds:
-    - git tag {{.VERSION}}
-    - git push origin {{.VERSION}}
-    - echo "Tagged and pushed {{.VERSION}}"
+    - git tag ${{"{{"}} .VERSION {{"}}"}}
+    - git push origin ${{"{{"}} .VERSION {{"}}"}}
+    - echo "Tagged and pushed ${{"{{"}} .VERSION {{"}}"}}"
     requires:
       vars: [VERSION]
 
