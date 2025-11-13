@@ -53,7 +53,7 @@ For complete command reference, see [Command Cheatsheet](./command-cheatsheet.md
 
 ```bash
 # See linting in action (introduce an error first)
-echo "import os  # unused import" >> src/{{ module_name }}/__init__.py
+echo "import os  # unused import" >> src/{{ package_name  }}/__init__.py
 task check  # Should show the linting error
 
 # Fix it automatically
@@ -75,7 +75,7 @@ xdg-open htmlcov/index.html  # Linux
 
 ```bash
 # Test pre-commit hooks
-echo "test_bad_code = 'not formatted'" >> src/{{ module_name }}/__init__.py
+echo "test_bad_code = 'not formatted'" >> src/{{ package_name  }}/__init__.py
 git add .
 git commit -m "Test commit"  # Should trigger pre-commit checks
 ```

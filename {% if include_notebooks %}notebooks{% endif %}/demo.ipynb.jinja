@@ -25,7 +25,7 @@
    "outputs": [],
    "source": [
     "# Test import of local package\n",
-    "import {{ module_name }}"
+    "import {{ package_name  }}"
    ]
   },
   {
@@ -35,7 +35,7 @@
    "outputs": [],
    "source": [
     "# Check the package version\n",
-    "print(f\"Package version: {{ '{' }}{{ module_name }}.__version__{{ '}' }}\")"
+    "print(f\"Package version: {{ '{' }}{{ package_name  }}.__version__{{ '}' }}\")"
    ]
   },
   {
@@ -45,7 +45,7 @@
    "outputs": [],
    "source": [
     "# Run the main entrypoint function\n",
-    "{{ module_name }}.main()"
+    "{{ package_name  }}.main()"
    ]
   },
   {
@@ -64,7 +64,7 @@
    "outputs": [],
    "source": [
     "# Import the core module\n",
-    "from {{ module_name }}.core import DataProcessor"
+    "from {{ package_name  }}.core import DataProcessor"
    ]
   },
   {
@@ -107,7 +107,7 @@
    "outputs": [],
    "source": [
     "# Import utility functions\n",
-    "from {{ module_name }}.utils import calculate_average, validate_config"
+    "from {{ package_name  }}.utils import calculate_average, validate_config"
    ]
   },
   {
@@ -144,7 +144,7 @@
     "\n",
     "This notebook demonstrated:\n",
     "\n",
-    "1. ✅ Importing the {{ module_name }} package\n",
+    "1. ✅ Importing the {{ package_name  }} package\n",
     "2. ✅ Using the main entrypoint function\n",
     "3. ✅ Working with the DataProcessor class\n",
     "4. ✅ Using utility functions\n",
@@ -153,7 +153,7 @@
     "\n",
     "### Next Steps\n",
     "\n",
-    "- Explore the source code in `src/{{ module_name }}/`\n",
+    "- Explore the source code in `src/{{ package_name  }}/`\n",
     "- Run the test suite with `task test` or `uv run pytest`\n",
     "- Check out the [development commands](../docs/command-cheatsheet.md)\n"
    ]

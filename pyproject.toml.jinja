@@ -11,7 +11,7 @@ dependencies = []
 dynamic = ["version"]
 
 [project.scripts]
-{{ package_name }} = "{{ module_name }}:main"
+{{ package_name }} = "{{ package_name|replace('-', '_') }}:main"
 
 [dependency-groups]
 dev = [
@@ -36,16 +36,16 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where =["src"]
-include = ["{{ module_name }}*"]
+include = ["{{ package_name|replace('-', '_') }}*"]
 
 # SETUPTOOLS-SCM config (dynamic versioning)
 [tool.setuptools_scm]
-write_to = "src/{{ module_name }}/_version.py"
+write_to = "src/{{ package_name|replace('-', '_') }}/_version.py"
 fallback_version = "0.0.0"
 
 # DEPTRY config
 [tool.deptry]
-known_first_party = ["{{ module_name }}"]  # ignore local package
+known_first_party = ["{{ package_name|replace('-', '_') }}"]  # ignore local package
 
 # PYTEST config
 [tool.pytest]

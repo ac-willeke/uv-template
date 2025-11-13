@@ -97,8 +97,8 @@ pip install -i https://test.pypi.org/simple/ {{ package_name }}
 ```
 
 ```python
-import {{ module_name }}
-{{ module_name }}.main()
+import {{ package_name|replace('-', '_') }}
+{{ package_name|replace('-', '_') }}.main()
 # > Hello from {{ package_name }}!
 # > Version: x.x.x
 ```
