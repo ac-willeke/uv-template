@@ -26,11 +26,7 @@ package_name:
   default: "{{ project_name|lower|replace(' ', '_')|replace('-', '_') }}"
   validator: "{% if not package_name.replace('_', '').isalnum() %}Package name must be alphanumeric with underscores only{% endif %}"
 
-distribution_name:
-  type: str
-  help: "What is your PyPI distribution name? (kebab-case, e.g., my-awesome-package)"
-  default: "{{ package_name|replace('_', '-') }}"
-  validator: "{% if not distribution_name.replace('-', '').replace('_', '').isalnum() %}Distribution name must be alphanumeric with hyphens/underscores{% endif %}"
+distribution_name: "{{ package_name|replace('_', '-') }}"
 
 project_description:
   type: str
