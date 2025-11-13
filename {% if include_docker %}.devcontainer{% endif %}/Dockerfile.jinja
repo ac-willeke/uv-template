@@ -1,34 +1,18 @@
-# Devcontainer-specific Dockerfile
-# Extends the root Dockerfile but includes dev dependencies
+# Build from published image
+# (improved build time and ensures consistency)
+# NOTE: you must first publish the image to GitHub Container Registry and the update 
+# the path in the docker-compose.yml file accordingly.
+FROM ghcr.io/{{ github_username }}/{{ package_name }}:latest
 
-# Adapted from: https://github.com/astral-sh/uv-docker-example
-FROM ghcr.io/astral-sh/uv:python{{ python_version }}-bookworm-slim
+# Dev-only customizations can go here if needed
+# Note: Git and other dev tools are installed via devcontainer features
+# which is the preferred approach over RUN commands
 
-WORKDIR /app
+# Install additional development tools if needed
+# RUN apt-get update && apt-get install -y \
+#     curl \
+#     wget \
+#     && rm -rf /var/lib/apt/lists/*
 
-# Enable bytecode compilation: speeds up package installation
-ENV UV_COMPILE_BYTECODE=1
-
-# Copy dependencies from cache to .venv instead of linking as .venv is a mounted volume
-ENV UV_LINK_MODE=copy
-
-# Ensure installed tools can be executed out of the box
-ENV UV_TOOL_BIN_DIR=/usr/local/bin
-
-# Cache bind: install the .venv (including dev dependencies)
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --locked --no-install-project
-
-# Copy source code
-# If source code changes, .venv does not need to be re-installed
-COPY . /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked
-
-# Add .venv to PATH
-ENV PATH="/app/.venv/bin:$PATH"
-
-# Set up for devcontainer usage
+# Set working directory
 WORKDIR /workspaces/{{ package_name }}

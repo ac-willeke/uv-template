@@ -81,20 +81,24 @@ Choose one of these methods:
 
 ### Next Steps (Both Methods)
 
-1. Set up your development environment:
+1. Set up your Python environment locally with uv:
 
     ```bash
     cd your-project-directory
     uv sync --group dev
     ```
 
-2. Initialize pre-commit hooks:
+2. (Optional) open in a devcontainer if you included Docker support:
+   - Open in VS Code --> CTRL + SHIFT + P --> "Dev Containers: Reopen in Container"
+   - **IMPORTANT**: you must first run `uv sync --group dev` locally before opening the devcontainer for the first time to ensure the `uv.lock` file and `venv` are properly set up.
+
+3. Initialize pre-commit hooks:
 
     ```bash
     uv run pre-commit install
     ```
 
-3. Update your project from the template when needed (Copier method only):
+4. Update your project from the template when needed (Copier method only):
 
     ```bash
     cd your-project
