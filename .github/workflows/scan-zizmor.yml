@@ -1,0 +1,45 @@
+# Docs: https://docs.zizmor.sh/integrations/#github-actions
+name: Security Scan | GitHub Actions Security Analysis with zizmor 🌈
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/**
+  schedule:
+    - cron: 0 6 1 * * # Monthly: 1st of month, 6 AM UTC
+
+permissions: {}
+
+jobs:
+  zizmor:
+    name: zizmor latest via PyPI
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read # only needed for private repos
+      actions: read # only needed for private repos
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d # v7.1.0
+
+      - name: Run zizmor 🌈
+        run:
+          uvx zizmor --format=sarif . > results.sarif
+          # If you have a custom config file, e.g. .zizmor.yml,
+          # run: uvx zizmor --config .zizmor.yml --format=sarif . > results.sarif
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@42213152a85ae7569bdb6bec7bcd74cd691bfe41 # v3.30.9
+        if: github.repository_visibility == 'public'
+        with:
+          sarif_file: results.sarif
+          category: zizmor

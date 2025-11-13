@@ -64,7 +64,7 @@ jobs:
         name: codecov-umbrella
         verbose: true
       env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        CODECOV_TOKEN: ${{"{{"}} secrets.CODECOV_TOKEN {{"}}"}}
 
   build-and-inspect:
     name: Build & Inspect Package
