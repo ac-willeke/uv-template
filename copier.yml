@@ -90,16 +90,10 @@ include_docs:
   help: "Include comprehensive documentation folder?"
   default: true
 
-include_copilot_instructions:
+include_copilot:
   type: bool
   help: "Include GitHub Copilot instructions file?"
   default: false
-
-# Target audience (used in documentation)
-target_audience:
-  type: str
-  help: "Who is the target audience? (e.g., Developers, Data Scientists, etc.)"
-  default: "Developers"
 
 # Post-generation hooks
 _tasks:
@@ -129,8 +123,8 @@ _tasks:
         4. Run tests: uv run pytest
         5. Start developing: code .
         {% if include_docs %}
-        📖 For detailed setup instructions, see docs/setup-guide.md
-        🚀 For a quick start guide, see docs/demo-quickstart.md
-        📋 For command reference, see docs/command-cheatsheet.md
+        - For detailed setup instructions, see docs/setup-guide.md
+        - For a quick start guide, see docs/demo-quickstart.md
+        - For command reference, see docs/command-cheatsheet.md
         {% endif %}
     when: "{{ _copier_conf.src_path != _copier_conf.dst_path }}"
