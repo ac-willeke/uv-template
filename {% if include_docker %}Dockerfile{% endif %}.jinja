@@ -32,9 +32,9 @@ ENV PATH="/app/.venv/bin:$PATH"
 LABEL org.opencontainers.image.title="{{ project_name }}"
 LABEL org.opencontainers.image.description="{{ project_description }}"
 LABEL org.opencontainers.image.authors="{{ author_name }} <{{ author_email }}>"
-LABEL org.opencontainers.image.source="https://github.com/{{ github_username }}/{{ package_name }}"
+LABEL org.opencontainers.image.source="https://github.com/{{ github_username }}/{{ distribution_name }}"
 LABEL org.opencontainers.image.licenses="{{ license }}"
 
 ENTRYPOINT []
 
-CMD ["uv", "run", "{{ package_name }}"]
+CMD ["uv", "run", "{{ distribution_name }}"]

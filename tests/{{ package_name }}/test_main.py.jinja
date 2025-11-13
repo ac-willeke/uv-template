@@ -1,17 +1,16 @@
-"""Tests for the main {{ package_name  }} module."""
+"""Tests for the main {{ package_name }} module."""
 
-from typing import List
 import pytest
 
 # Add the src directory to the Python path if not already added
 # sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from {{ package_name  }} import main, greet, get_version, __version__
+from {{ package_name }} import main
 
 
 def test_main_function_output(capsys) -> None:
     """Test that the main function prints the expected output."""
     main()
     captured = capsys.readouterr()
-    assert "Hello from {{ package_name }}!" in captured.out
+    assert "Hello from {{ distribution_name }}!" in captured.out
     assert "Version:" in captured.out

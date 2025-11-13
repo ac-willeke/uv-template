@@ -41,10 +41,13 @@ Prerequisites for additional setup options:
 
 ### Create a new Python project
 
-1. Install `copier` with uv and generate a new project:
+Choose one of these methods:
+
+#### Method 1: Interactive Setup with Copier (Recommended)
+
+1. Install `copier` with uv and generate a new project, replace "my-new-project" with your project directory name:
 
     ```bash
-    # Install copier with uv and generate a new project
     uvx --with copier_template_extensions copier copy --trust https://github.com/ac-willeke/uv-template my-new-project
     ```
 
@@ -53,19 +56,45 @@ Prerequisites for additional setup options:
     The template will ask you for:
 
     - Project name and description
-    - Package and module names
+    - Package name
     - Author information
     - Python version
     - Optional features (Docker, notebooks, docs)
 
-3. Set up your development environment:
+#### Method 2: Quick Start with GitHub Template
+
+1. Click the **"Use this template"** button at the top of this repository
+2. Create your new repository
+3. Clone it locally and run the setup script:
 
     ```bash
-    cd my-new-project
+    git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+    cd YOUR_REPO_NAME
+    python setup-template.py
+    ```
+
+    The setup script will:
+    - Prompt you for the same configuration options as Copier
+    - Process all template files and replace variables
+    - Remove the `.jinja` extensions
+    - Clean up conditional files based on your choices
+
+### Next Steps (Both Methods)
+
+1. Set up your development environment:
+
+    ```bash
+    cd your-project-directory
     uv sync --group dev
     ```
 
-4. Update your project from the template when needed:
+2. Initialize pre-commit hooks:
+
+    ```bash
+    uv run pre-commit install
+    ```
+
+3. Update your project from the template when needed (Copier method only):
 
     ```bash
     cd your-project

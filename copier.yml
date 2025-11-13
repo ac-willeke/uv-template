@@ -22,9 +22,15 @@ project_name:
 
 package_name:
   type: str
-  help: "What is your package name? (e.g., my-awesome-package)"
-  default: "{{ project_name|lower|replace(' ', '-')|replace('_', '-') }}"
-  validator: "{% if not package_name.replace('-', '').replace('_', '').isalnum() %}Package name must be alphanumeric with hyphens/underscores{% endif %}"
+  help: "What is your Python package name? (snake_case, e.g., my_awesome_package)"
+  default: "{{ project_name|lower|replace(' ', '_')|replace('-', '_') }}"
+  validator: "{% if not package_name.replace('_', '').isalnum() %}Package name must be alphanumeric with underscores only{% endif %}"
+
+distribution_name:
+  type: str
+  help: "What is your PyPI distribution name? (kebab-case, e.g., my-awesome-package)"
+  default: "{{ package_name|replace('_', '-') }}"
+  validator: "{% if not distribution_name.replace('-', '').replace('_', '').isalnum() %}Distribution name must be alphanumeric with hyphens/underscores{% endif %}"
 
 project_description:
   type: str
@@ -111,7 +117,7 @@ _tasks:
         🎉 Successfully generated {{ project_name }}!
 
         Next steps:
-        1. Navigate to the project: cd {{ package_name }}
+        1. Navigate to the project: cd {{ distribution_name }}
         2. Install dependencies: uv sync --group dev
         3. Set up pre-commit hooks: uv run pre-commit install
         4. Run tests: uv run pytest

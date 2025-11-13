@@ -79,11 +79,11 @@ For detailed development container configuration and customization instructions,
 | **Security Scan - Zizmor** | ![Status](https://img.shields.io/github/actions/workflow/status/{{ github_username }}/{{ package_name }}/scan-zizmor.yml?branch=main&label=&style=flat) | GHA workflow security scan |
 | **Dependabot** |  | Automated dependency updates |
 
-Results of the security scans are visible in the [Security](https://github.com/{{ github_username }}/{{ package_name }}/security/code-scanning) tab of the GitHub repository.
+Results of the security scans are visible in the [Security](https://github.com/{{ github_username }}/{{ distribution_name }}/security/code-scanning) tab of the GitHub repository.
 
 ## Getting Started
 
-The **{{ package_name }}** package provides {{ project_description.lower() }}. You can install this package from [Test PyPI](https://test.pypi.org/project/{{ package_name }}/){% if include_docker %} or pull the containerized version from [GHCR](https://github.com/{{ github_username }}/{{ package_name }}/pkgs/container/{{ package_name }}){% endif %}.
+The **{{ distribution_name }}** package provides {{ project_description.lower() }}. You can install this package from [Test PyPI](https://test.pypi.org/project/{{ distribution_name }}/){% if include_docker %} or pull the containerized version from [GHCR](https://github.com/{{ github_username }}/{{ distribution_name }}/pkgs/container/{{ distribution_name }}){% endif %}.
 
 ### Installation
 
@@ -93,13 +93,13 @@ The **{{ package_name }}** package provides {{ project_description.lower() }}. Y
 Install the package from Test PyPI:
 
 ```bash
-pip install -i https://test.pypi.org/simple/ {{ package_name }}
+pip install -i https://test.pypi.org/simple/ {{ distribution_name }}
 ```
 
 ```python
-import {{ package_name|replace('-', '_') }}
-{{ package_name|replace('-', '_') }}.main()
-# > Hello from {{ package_name }}!
+import {{ package_name }}
+{{ package_name }}.main()
+# > Hello from {{ distribution_name }}!
 # > Version: x.x.x
 ```
 
@@ -107,10 +107,10 @@ import {{ package_name|replace('-', '_') }}
 Or pull and run the container:
 
 ```bash
-docker pull ghcr.io/{{ github_username }}/{{ package_name }}:latest
+docker pull ghcr.io/{{ github_username }}/{{ distribution_name }}:latest
 
-docker run --rm ghcr.io/{{ github_username }}/{{ package_name }}:latest
-# > Hello from {{ package_name }}!
+docker run --rm ghcr.io/{{ github_username }}/{{ distribution_name }}:latest
+# > Hello from {{ distribution_name }}!
 # > Version: x.x.x
 ```
 
@@ -178,7 +178,7 @@ For detailed setup instructions, refer to the [setup guide](./docs/setup-guide.m
    # Test the package
    task run
    # or
-   uv run {{ package_name }}
+   uv run {{ distribution_name }}
 
    # Run quality checks
    task check

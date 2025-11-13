@@ -5,16 +5,16 @@
 """
 from importlib.metadata import version
 
-__version__ = version("{{ package_name }}")
+__version__ = version("{{ distribution_name }}")
 
 
 def main() -> None:
     """
-    Main entry point for {{ package_name }}.
+    Main entry point for {{ distribution_name }}.
     
     Displays a welcome message and version information.
     """
-    print(f"Hello from {{ package_name }}!")
+    print(f"Hello from {{ distribution_name }}!")
     print(f"Version: {__version__}")
 
 if __name__ == "__main__":
