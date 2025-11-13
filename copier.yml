@@ -112,8 +112,7 @@ _tasks:
     when: "{{ _copier_conf.src_path != _copier_conf.dst_path }}"
 
   # Create initial commit
-  - command: "git"
-    args: ["commit", "-m", "Initial commit from UV Python template"]
+  - command: 'git commit -m "Initial commit from UV Python template"'
     when: "{{ _copier_conf.src_path != _copier_conf.dst_path }}"
 
   # Display post-generation instructions
