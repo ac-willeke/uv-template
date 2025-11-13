@@ -106,7 +106,7 @@ tasks:
     cmds:
     - uv run --no-sync {{ package_name }}
 
-{% if include_docker -%}
+
   run-docker:
     desc: Build and run Docker container (development mode with volume mounts)
     cmds:
@@ -121,22 +121,6 @@ tasks:
     cmds:
     - docker run --rm ghcr.io/{{ github_username }}/{{ package_name }}:latest
 
-  demo:
-    desc: Run complete demo (Python package and Docker container)
-    cmds:
-    - echo "=== Running Python package ==="
-    - task: run
-    - echo "=== Running Docker container ==="
-    - task: run-docker
-
-{% else -%}
-  demo:
-    desc: Run complete demo (Python package)
-    cmds:
-    - echo "=== Running {{ project_name }} ==="
-    - task: run
-
-{% endif -%}
   dev-setup:
     desc: Complete development environment setup
     deps: [install, check]
@@ -161,19 +145,6 @@ tasks:
     cmds:
     - echo "Local CI simulation complete!"
 
-{% if include_notebooks -%}
-  # Notebook Management
-  notebook:
-    desc: Start Jupyter Lab server
-    cmds:
-    - uv run jupyter lab
-
-  notebook-clean:
-    desc: Clean notebook outputs
-    cmds:
-    - uv run nbstripout notebooks/*.ipynb
-
-{% endif -%}
   # Help
   default:
     desc: Show available tasks
@@ -200,17 +171,7 @@ tasks:
       echo ""
       echo "  Running:"
       echo "    task run          # Run {{ package_name }}"
-{% if include_docker -%}
       echo "    task run-docker   # Run in Docker container"
-{% endif -%}
-      echo "    task demo         # Run complete demo"
-      echo ""
-{% if include_notebooks -%}
-      echo "  Notebooks:"
-      echo "    task notebook     # Start Jupyter Lab"
-      echo "    task notebook-clean # Clean notebook outputs"
-      echo ""
-{% endif -%}
       echo "  Release:"
       echo "    task build        # Build package"
       echo "    task tag VERSION=v1.0.0  # Create release tag"
