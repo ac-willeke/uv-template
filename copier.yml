@@ -5,6 +5,8 @@ _envops:
   block_end_string: "%}"
   variable_start_string: "{{"
   variable_end_string: "}}"
+_extensions:
+  - copier_templates_extensions.TemplateExtensionLoader
 
 # Template metadata
 _metadata:
