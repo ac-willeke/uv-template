@@ -44,7 +44,7 @@ jobs:
     - name: Show Git tag
       run: |
         echo "Git describe: $(git describe --tags --dirty --always)"
-        uv run python -c "import {{ package_name|replace('-', '_') }}; print(f'Package version: {{'{{ package_name|replace('-', '_') }}'}}'.__version__}')"
+        uv run python -c "import {{ package_name|replace('-', '_') }}; print(f'Package version: {{ '{' }}{{ package_name|replace('-', '_') }}.__version__{{ '}' }}')"
 
     - name: Run deptry (dependency check)
       run: uv run deptry . --known-first-party {{ package_name|replace('-', '_') }}
@@ -64,7 +64,7 @@ jobs:
         name: codecov-umbrella
         verbose: true
       env:
-        CODECOV_TOKEN: ${{"{{"}} secrets.CODECOV_TOKEN {{"}}"}}
+        CODECOV_TOKEN: ${{ '{' }}{{ '{' }} secrets.CODECOV_TOKEN {{ '}' }}{{ '}' }}
 
   build-and-inspect:
     name: Build & Inspect Package
